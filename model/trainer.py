@@ -106,10 +106,10 @@ class Trainer:
                 if paddle.max(paddle.abs(y)) > 1e5:
                     scale_factor = 1e5 / paddle.max(paddle.abs(y))
                     y = y * scale_factor
-                    print(f"[Debug] Scaled down model output by factor {scale_factor}")
+                    #print(f"[Debug] Scaled down model output by factor {scale_factor}")
 
                 # Debug model output
-                print(f"[Debug] Model output range: [{paddle.min(y)}, {paddle.max(y)}]")
+                #print(f"[Debug] Model output range: [{paddle.min(y)}, {paddle.max(y)}]")
 
                 residue: paddle.Tensor = util.absolute_residue(y, bc_mask, f, reduction='none')
 
@@ -117,10 +117,10 @@ class Trainer:
                 if paddle.max(paddle.abs(residue)) > 1e5:
                     scale_factor = 1e5 / paddle.max(paddle.abs(residue))
                     residue = residue * scale_factor
-                    print(f"[Debug] Scaled down residue by factor {scale_factor}")
+                    #print(f"[Debug] Scaled down residue by factor {scale_factor}")
 
                 # Debug residue
-                print(f"[Debug] Residue range: [{paddle.min(residue)}, {paddle.max(residue)}]")
+                # print(f"[Debug] Residue range: [{paddle.min(residue)}, {paddle.max(residue)}]")
 
                 # Apply log1p to make the loss more stable
                 loss_x: paddle.Tensor = paddle.log1p(util.norm(residue)).mean()

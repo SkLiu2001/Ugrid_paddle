@@ -21,8 +21,8 @@ python train.py \
     --max_epoch 1000 \
     --save_every 1 \
     --evaluate_every 1 \
-    --checkpoint_root "/root/autodl-tmp/model" \
-    --dataset_root "/root/autodl-tmp/data/Downloads/SynDat_1025/" \
+    --checkpoint_root "/home/qinnan/liusk/homework_data" \
+    --dataset_root "/home/qinnan/liusk/homework_data/Downloads/SynDat_1025" \
     --num_workers 8 \
     --batch_size 4 \
     --seed 9590589012167207234

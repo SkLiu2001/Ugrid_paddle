@@ -18,7 +18,7 @@ def main() -> None:
     opt: argparse.Namespace = TrainArg().parse()
 
     # checkpoint
-    experienment_name: str = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+    experienment_name: str = datetime.datetime.now().strftime('%Y%m%d-%H%M%S') + 'paddle'
     experienment_checkpoint_path: str = os.path.join(opt.checkpoint_root, experienment_name)
     os.makedirs(experienment_checkpoint_path, exist_ok=True)
     np.save(os.path.join(experienment_checkpoint_path, 'opt_old.npy'), opt)
