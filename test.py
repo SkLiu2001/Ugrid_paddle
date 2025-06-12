@@ -161,7 +161,7 @@ def main() -> None:
                                       'shape_l', 'shape_square', 'shape_square_poisson', 'star', 'bag']
 
     # Test UGrid
-    for size in [1025, 257]:
+    for size in [4097]:
         for testcase in testcase_lst:
             test_on_single_data(testcase, size, model, benchmark_iteration=10)
 

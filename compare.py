@@ -3,7 +3,7 @@ import typing
 
 import cv2
 import numpy as np
-import torch
+import paddle
 
 import comparasion.cpmg as cpmg
 import util
@@ -66,7 +66,7 @@ def amgx_solve_on_single_data(testcase, size):
         assembly_time_elapsed += assembly_time
         solving_time_elapsed += solving_time
         total_time_elapsed += total_time
-        total_error += util.relative_residue(torch.from_numpy(y.reshape((1, 1, size, size))).cuda(), b, m, f)[1].item()
+        total_error += util.relative_residue(paddle.to_tensor(y.reshape((1, 1, size, size))).cuda(), b, m, f)[1].item()
 
     log_str = (f'AMGX {testcase}_{size} '
                f'assembly {assembly_time_elapsed / duplicate} '
@@ -85,14 +85,14 @@ def amgx_solve_on_single_data(testcase, size):
 def main() -> None:
     # Same seed as the UGrid model for fair comparasion
     seed = 9590589012167207234
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
+    paddle.seed(seed)
+    paddle.device.cuda.set_device(0)  # 设置GPU设备
 
     testcase_lst: typing.List[str] = ['bag', 'cat', 'lock', 'note', 'poisson_region', 'punched_curve',
                                       'shape_l', 'shape_square', 'shape_square_poisson', 'star']
 
     # Test AMGCL CUDA
-    for size in [1025, 257]:
+    for size in [257]:
         for testcase in testcase_lst:
             # print(f'AMGCL CUDA {testcase} {size}')
             # open(f'var/conv/AMGCL/{testcase}_{size}.txt', 'w').close()
@@ -100,7 +100,7 @@ def main() -> None:
 
     # Test NVIDIA AMGX
     cpmg.amgx_initialize()
-    for size in [1025, 257]:
+    for size in [257]:
         for testcase in testcase_lst:
             amgx_solve_on_single_data(testcase, size)
     cpmg.amgx_finalize()
